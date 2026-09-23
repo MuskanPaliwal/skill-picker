@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "skill-picker"
+version = "0.1.0"
+description = "Rank a user's agent skills against a request so an agent can suggest which to invoke"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Muskan Paliwal" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/MuskanPaliwal/skill-picker"
+Issues = "https://github.com/MuskanPaliwal/skill-picker/issues"
+
+[project.scripts]
+skill-picker = "skill_picker.cli:main"
+skill-picker-eval = "skill_picker.evaluate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skill_picker"]

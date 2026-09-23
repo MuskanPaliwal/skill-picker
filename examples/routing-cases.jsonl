@@ -1,0 +1,10 @@
+{"id":"unreproduced-report","request":"A customer says checkout sometimes hangs, but nobody on the team has seen it happen locally.","expected":"suggestions","acceptable_skills":["reproduce-bug"]}
+{"id":"intermittent-failure","request":"Our nightly job fails about one run in five and we have no idea why.","expected":"suggestions","acceptable_skills":["reproduce-bug"]}
+{"id":"lock-in-the-fix","request":"I have a reliable reproduction for the parser bug. Add a failing test before I touch the parser.","expected":"suggestions","acceptable_skills":["write-regression-test"]}
+{"id":"review-branch","request":"Go through the changes on this branch and tell me what you would block in review.","expected":"suggestions","acceptable_skills":["review-diff"]}
+{"id":"review-pull-request","request":"Read this pull request and write feedback I can paste into the review.","expected":"suggestions","acceptable_skills":["review-diff"]}
+{"id":"unfamiliar-service","request":"I inherited the billing service and cannot follow how a payment moves through it.","expected":"suggestions","acceptable_skills":["explain-architecture"]}
+{"id":"ship-the-release","request":"We are cutting 2.4 tomorrow and I need notes covering everything merged since 2.3.","expected":"suggestions","acceptable_skills":["draft-release-notes"]}
+{"id":"plain-thanks","request":"Thanks, that explanation helped.","expected":"abstain"}
+{"id":"trivia-question","request":"What year was the Python 3.0 release?","expected":"abstain"}
+{"id":"already-chosen","request":"Use /review-diff on the current branch.","expected":"skip"}
