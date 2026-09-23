@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "skill-picker"
 version = "0.1.0"
-description = "Rank a user's agent skills against a request so an agent can suggest which to invoke"
+description = "Skill picker powered by Jev, TypeSafe's System One model: ranks your own agent skills against a request so your agent can suggest the right one"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"

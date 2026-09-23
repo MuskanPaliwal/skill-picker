@@ -4,8 +4,23 @@ You have thirty agent skills and remember four of them. This ranks your own
 skills against what you just asked for, so your agent can offer the right one
 and you decide whether to use it.
 
-It prints JSON and takes no action. Nothing runs in the background, and no
-skill is ever invoked for you.
+It prints JSON and does nothing else. No daemon, no background process, and it
+never invokes a skill for you.
+
+## Ranking runs on Jev
+
+[Jev](https://www.jevtypesafeai.com) is TypeSafe's System One model. It writes
+no prose. You send it state and typed questions, and it answers with
+probabilities. Ask which of your thirty skills fits a request and you get a
+number per skill instead of a paragraph to parse.
+
+That is what makes this practical. Choosing a skill takes judgment, so it
+needs a model. But a number you can compare against a threshold beats a
+sentence you have to interpret, and it stays cheap enough to run on every
+request. Two calls, 1.9 seconds on average.
+
+You need a TypeSafe API key for that. Without one the tool still runs, reports
+`status: unavailable`, and your agent carries on as before.
 
 ```console
 $ echo "A customer says checkout sometimes hangs, but nobody has reproduced it." \
@@ -57,31 +72,32 @@ Or from a clone, with pip 24.2 or newer:
 pip install .
 ```
 
-## Give it an API key
+## Give it your key
 
-Ranking runs on [TypeSafe](https://console.typesafe.ai/keys)'s Jev model. The
-router reads a key from one of three sources and never stores one. The first
-*configured* source wins: if a helper command is set and fails, that is an
-error rather than a fallthrough to the key file, so a stale key can't be used
-behind your back.
+Create one at [console.typesafe.ai/keys](https://console.typesafe.ai/keys),
+then set it when you run the tool:
 
-| Source | Use it when |
-| --- | --- |
-| `TYPESAFE_API_KEY` | CI, containers, a one-off run |
-| `TYPESAFE_API_KEY_COMMAND` | your key lives in a secret manager |
-| `~/.config/typesafe/api-key` | you just want it to work |
+```bash
+export TYPESAFE_API_KEY=your-key
+echo "the export crashes intermittently, find the cause" | skill-picker
+```
 
-The simplest setup:
+That is the whole setup. Put the `export` line in your shell profile, or
+wherever your agent picks up its environment, and forget about it. The tool
+reads the key when it makes the call and writes it nowhere.
+
+<details>
+<summary>If you would rather not keep it in your environment</summary>
+
+A file, which the tool reads when `TYPESAFE_API_KEY` is unset:
 
 ```bash
 mkdir -p ~/.config/typesafe
-printf '%s' 'YOUR_KEY' > ~/.config/typesafe/api-key
+printf '%s' 'your-key' > ~/.config/typesafe/api-key
 chmod 600 ~/.config/typesafe/api-key
 ```
 
-That location follows `XDG_CONFIG_HOME` when you set it.
-
-With a secret manager, point the router at any command that prints the key:
+Or any command that prints the key, for a secret manager:
 
 ```bash
 export TYPESAFE_API_KEY_COMMAND='op read "op://Private/TypeSafe/credential"'
@@ -89,19 +105,23 @@ export TYPESAFE_API_KEY_COMMAND='pass show typesafe/api-key'
 export TYPESAFE_API_KEY_COMMAND='security find-generic-password -s typesafe -w'
 ```
 
-That command runs without a shell, so metacharacters in it stay literal. Its
-standard error is left connected to your terminal, so an unlock prompt is
-visible rather than silently blocking, and neither its output nor its
-arguments ever appear in an error message.
+The first source you configure wins, in the order above. A helper command that
+fails stops the run rather than quietly falling through to the file, so you
+never route with a stale key by accident.
 
-Without a key the router reports `status: unavailable` and your agent carries
-on as before. Every skill stays invocable by name; routing only helps you find
-one.
+The helper runs without a shell, so metacharacters in it stay literal. Its
+prompts reach your terminal, so an unlock request does not look like a hang.
+Its output and arguments never appear in an error message, because either can
+carry the key.
+
+The file location follows `XDG_CONFIG_HOME` when you set it.
+
+</details>
 
 ## Point it at your skills
 
 It reads any directory of `<name>/SKILL.md` files with YAML frontmatter, the
-layout Claude Code and `.agents` already use. `~/.agents/skills` is tried
+layout Claude Code and `.agents` already use. It looks in `~/.agents/skills`
 first, then `~/.claude/skills`.
 
 ```bash
@@ -114,7 +134,7 @@ A skill is routable when its frontmatter has a `description`. Set
 the model matches against, so write it for the situation the skill is for, not
 the steps it performs.
 
-Deterministic commands can compete in the same ranking through a JSON file:
+Plain commands can compete in the same ranking. List them in a JSON file:
 
 ```json
 [
@@ -152,13 +172,13 @@ contains credentials.
 
 Two calls, not one.
 
-1. **Gate and shortlist.** Three questions decide whether the request wants a
-   procedure at all, and one ranks the full catalog by description. Below the
-   gate floor it returns nothing and never makes the second call, so "thanks!"
-   costs half of what a real task costs.
+1. **Gate and shortlist.** Three questions ask whether the request wants a
+   procedure at all. A fourth ranks your whole catalog by description. Below
+   the gate floor it returns nothing and skips the second call, so "thanks!"
+   costs half what a real task costs.
 2. **Rerank the top three** against each skill's opening instructions, with a
    per-skill question asking whether it actually fits. Anything below the fit
-   floor is dropped, so a weak third suggestion disappears instead of padding
+   floor drops out, so a weak third suggestion disappears instead of padding
    the list.
 
 A request that already names a skill or command returns `status: skipped`
@@ -186,21 +206,21 @@ You get top-1 accuracy, top-3 recall, mean reciprocal rank, false-positive and
 false-negative rates, explicit-invocation bypass, token usage, and
 mean/p50/p95 latency. `--json-output` writes the full per-case report.
 
-This measures the router once it is called. It cannot tell you whether your
-agent remembered to call it.
+One limit worth knowing. This measures the ranking after something calls it.
+Whether your agent remembers to call it is a separate problem, and no
+benchmark here will tell you.
 
 ## What leaves your machine
 
 The request text, and the name, description, and opening instructions of your
 skills. Not your conversation history, not your files, not your repository.
 
-For `--actions` entries the command line itself is sent, because that is what
-the model ranks them by, so keep credentials out of those command strings.
+For `--actions` entries it also sends the command line, since that is what the
+model ranks them by. Keep credentials out of those command strings.
 
-Because the request is sent verbatim, tell your agent to skip routing for
-messages containing credentials, and treat the request as untrusted data: the
-router's prompts already instruct the model not to follow instructions found
-inside it.
+The request goes over the wire word for word, so tell your agent to skip
+routing when a message contains credentials. The prompts already treat the
+request as data and tell the model to ignore any instructions hiding in it.
 
 ## Development
 
@@ -208,5 +228,11 @@ inside it.
 PYTHONPATH=src python3 -m unittest discover -s tests -t tests
 ```
 
-The tests are offline. Only `skill-picker-eval` and a real `skill-picker` run
-call the API.
+The tests are offline and need no API key. Only `skill-picker-eval` and a real
+`skill-picker` run call Jev. See [CONTRIBUTING.md](CONTRIBUTING.md) before
+opening a pull request.
+
+## License
+
+MIT. See [LICENSE](LICENSE). Send a pull request and you license it the same
+way.
