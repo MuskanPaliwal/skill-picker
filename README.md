@@ -9,7 +9,7 @@ never invokes a skill for you.
 
 ## Ranking runs on Jev
 
-[Jev](https://www.jevtypesafeai.com) is TypeSafe's System One model. It writes
+[Jev](https://typesafe.ai/) is TypeSafe's System One model. It writes
 no prose. You send it state and typed questions, and it answers with
 probabilities. Ask which of your thirty skills fits a request and you get a
 number per skill instead of a paragraph to parse.
