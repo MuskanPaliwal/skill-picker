@@ -211,9 +211,20 @@ Before starting a nontrivial new task, pass only the current user request to
 `skill-picker` on stdin. Use a quoted heredoc so request text is never
 evaluated as shell syntax. If suggestions come back, show the ranked list with
 a one-line reason each, ask which to use, and wait. If none come back, or the
-status is `unavailable`, continue normally. Skip routing for simple questions,
-follow-ups, and requests that already name a skill. Skip it when the request
-contains credentials.
+status is `unavailable`, continue normally.
+
+Skip routing for simple questions, conversational replies, direct
+continuations of the currently authorized workflow, and requests that already
+invoke a `/skill` or `$ command`. Skip it when the request contains credentials.
+
+Treat a request as a direct continuation only when it advances the same
+requested outcome through the same workflow. Do not skip routing merely because
+it concerns the same repository, topic, or changes as the previous request. A
+request that starts a new workflow, asks for a new deliverable, or performs a
+new state-changing action is a new task and should be routed before acting.
+This includes requests to commit completed changes, push a branch, create or
+update a pull request, prepare a release, or publish a package, even when they
+immediately follow the implementation work.
 ```
 
 ## How it ranks
