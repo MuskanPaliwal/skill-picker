@@ -118,6 +118,54 @@ The file location follows `XDG_CONFIG_HOME` when you set it.
 
 </details>
 
+### Codex CLI
+
+Codex sandboxes commands run by the agent. A desktop secret manager may be
+unreachable from there, so read the key before launching Codex and pass it in
+as `TYPESAFE_API_KEY`.
+
+The sandbox also blocks network access by default. Use a
+[permission profile](https://developers.openai.com/codex/permissions) to allow
+TypeSafe without opening the rest of the internet:
+
+```toml
+# ~/.codex/typesafe.config.toml
+default_permissions = "typesafe"
+
+[features]
+network_proxy = true
+
+[permissions.typesafe]
+extends = ":workspace"
+
+[permissions.typesafe.network]
+enabled = true
+
+[permissions.typesafe.network.domains]
+"api.typesafe.ai" = "allow"
+```
+
+Load the key in the parent shell, then start Codex with that profile:
+
+```bash
+TYPESAFE_API_KEY="$(your-secret-command)" \
+  codex --profile typesafe --no-daemon
+```
+
+`--no-daemon` matters when the key is loaded for each launch. An existing
+Codex app server does not receive environment changes from a later client. If
+the key is already exported, run the same command without the assignment.
+
+If routing is still unavailable, the reason shows where it stopped:
+
+- `TYPESAFE_API_KEY_COMMAND exited with status 1` means the key helper failed.
+  Load the key before starting Codex.
+- `TypeSafe API could not be reached` means the sandbox could not reach
+  `api.typesafe.ai`. Check the selected profile and its network proxy.
+
+Do not disable the sandbox or enable unrestricted command networking just for
+skill routing.
+
 ## Point it at your skills
 
 It reads any directory of `<name>/SKILL.md` files with YAML frontmatter, the
