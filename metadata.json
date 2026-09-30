@@ -1,0 +1,42 @@
+{
+  "cli_version": "0.11.3-nightly.202609230619.4e2e839c2",
+  "checkpoint_id": "01M3RKZBTGHTGJHSPMGG5A7TZP",
+  "strategy": "manual-commit",
+  "branch": "mature-skill-picker",
+  "checkpoints_count": 9,
+  "files_touched": [
+    "README.md",
+    "examples/routing-cases.jsonl",
+    "pyproject.toml",
+    "src/skill_picker/cli.py",
+    "src/skill_picker/evaluate.py",
+    "src/skill_picker/hook.py",
+    "src/skill_picker/router.py",
+    "tests/test_evaluate.py",
+    "tests/test_hook.py",
+    "tests/test_router.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 94,
+    "cache_creation_tokens": 60237,
+    "cache_read_tokens": 9166257,
+    "output_tokens": 37547,
+    "api_call_count": 45,
+    "subagent_tokens": {
+      "input_tokens": 60,
+      "cache_creation_tokens": 34304,
+      "cache_read_tokens": 181225,
+      "output_tokens": 1478,
+      "api_call_count": 7
+    }
+  }
+}

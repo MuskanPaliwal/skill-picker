@@ -1,0 +1,131 @@
+{
+  "cli_version": "0.11.3-nightly.202609230619.4e2e839c2",
+  "checkpoint_id": "01M3RKZBTGHTGJHSPMGG5A7TZP",
+  "session_id": "4b6389a2-d94f-4e48-9623-8e38a1434f55",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-30T07:37:59.978209Z",
+  "branch": "mature-skill-picker",
+  "checkpoints_count": 9,
+  "files_touched": [
+    "README.md",
+    "examples/routing-cases.jsonl",
+    "pyproject.toml",
+    "src/skill_picker/cli.py",
+    "src/skill_picker/evaluate.py",
+    "src/skill_picker/hook.py",
+    "src/skill_picker/router.py",
+    "tests/test_evaluate.py",
+    "tests/test_hook.py",
+    "tests/test_router.py"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "74536d38316e",
+  "checkpoint_transcript_start": 797,
+  "transcript_lines_at_start": 797,
+  "compact_transcript_start": 144,
+  "token_usage": {
+    "input_tokens": 94,
+    "cache_creation_tokens": 60237,
+    "cache_read_tokens": 9166257,
+    "output_tokens": 37547,
+    "api_call_count": 45,
+    "subagent_tokens": {
+      "input_tokens": 60,
+      "cache_creation_tokens": 34304,
+      "cache_read_tokens": 181225,
+      "output_tokens": 1478,
+      "api_call_count": 7
+    }
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "prompt-skill-claude-code-swarm-2026-09-29T15:54:26.989608Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "swarm"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "933cae25bff8",
+      "timestamp": "2026-09-29T15:54:26.989608Z",
+      "native": {
+        "command": "/swarm"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/swarm",
+        "default_collapsed": true
+      }
+    },
+    {
+      "id": "claude-skill-toolu_016vaCmU8Ga6czWLFC8s5HiY",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "unslop"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "449073f621bc",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 575,
+        "end": 576,
+        "entry_ids": [
+          "2b4b1213-f1ac-40f9-ae3a-b15b542d29ac"
+        ],
+        "tool_use_id": "toolu_016vaCmU8Ga6czWLFC8s5HiY"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_016vaCmU8Ga6czWLFC8s5HiY"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: unslop",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 38
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-09-30T07:37:59.932748Z",
+    "agent_lines": 601,
+    "agent_removed": 21,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 601,
+    "total_lines_changed": 622,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 928,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.json": 90,
+        ".codex/hooks.json": 88,
+        ".cursor/hooks.json": 40,
+        ".factory/settings.json": 85,
+        ".gemini/settings.json": 141,
+        ".github/hooks/entire.json": 68,
+        ".opencode/plugins/entire.ts": 269,
+        ".pi/extensions/entire/index.ts": 147
+      }
+    }
+  ]
+}
