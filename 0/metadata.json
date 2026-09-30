@@ -1,0 +1,90 @@
+{
+  "cli_version": "0.11.3-nightly.202609230619.4e2e839c2",
+  "checkpoint_id": "01M3RP8PNC2N8KGVY7BP9VGSEY",
+  "session_id": "6afe3251-4f05-4c35-a4c3-6179a98ea55c",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-30T08:18:03.03762Z",
+  "branch": "main",
+  "checkpoints_count": 4,
+  "files_touched": [],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "f83ba920a9c4",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 22,
+    "cache_creation_tokens": 31544,
+    "cache_read_tokens": 434966,
+    "output_tokens": 2265,
+    "api_call_count": 9
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "prompt-skill-claude-code-push-branch-2026-09-30T08:05:12.568361Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "push-branch"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "2604cafd07e7",
+      "timestamp": "2026-09-30T08:05:12.568361Z",
+      "native": {
+        "command": "/push-branch"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/push-branch",
+        "default_collapsed": true
+      }
+    },
+    {
+      "id": "prompt-skill-claude-code-commit-2026-09-30T08:17:17.71103Z",
+      "event_type": "prompt_invocation",
+      "skill": {
+        "name": "commit"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "prompt_slash_command",
+        "confidence": "explicit"
+      },
+      "turn_id": "98c69078b6d5",
+      "timestamp": "2026-09-30T08:17:17.71103Z",
+      "native": {
+        "command": "/commit"
+      },
+      "collapse": {
+        "target": "user_message",
+        "label": "/commit",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 928,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.json": 90,
+        ".codex/hooks.json": 88,
+        ".cursor/hooks.json": 40,
+        ".factory/settings.json": 85,
+        ".gemini/settings.json": 141,
+        ".github/hooks/entire.json": 68,
+        ".opencode/plugins/entire.ts": 269,
+        ".pi/extensions/entire/index.ts": 147
+      }
+    }
+  ]
+}

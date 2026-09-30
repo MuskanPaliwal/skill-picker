@@ -1,0 +1,25 @@
+can you push the changes
+
+---
+
+/push-branch
+
+---
+
+no let's push to main /pus
+
+---
+
+no let's push to main /push-branch
+
+---
+
+/commit
+
+---
+
+yes commit and push to github-origin
+
+---
+
+yes commit and push to github-origin amd entire too
